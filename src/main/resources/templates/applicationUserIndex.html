@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Potato</title>
+    <div th:replace="~{common :: head}"></div>
+</head>
+<body>
+<h1>Albums!</h1>
+<ul>
+    <li th:each="user : ${users}">
+        <span th:text="${user}"></span>
+    </li>
+</ul>
+<h2>Become a user!</h2>
+<form action="/users" method="POST">
+    <input value="user name" name="userName" />
+    <input value="password" name="password" />
+    <input value="first name" name="firstName" />
+    <input value="Last Name" name="lastName" />
+    <input value="date of birth" name="dateOfBirth" />
+    <input value="picture" name="picture" />
+    <input value="bio" name="bio" />
+    <input type="submit" />
+</form>
+</body>
+</html>
