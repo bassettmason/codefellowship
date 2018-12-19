@@ -1,6 +1,7 @@
 package com.bassettmason.codefellowship;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,8 +18,17 @@ public class ApplicationUserController {
     @Autowired
     private ApplicationUserRepository userRepo;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @RequestMapping(value="/", method= RequestMethod.GET)
     public String index(Model m) {
+
+        m.addAttribute("users", userRepo.findAll());
+        return "Hello";
+    }
+    @RequestMapping(value="/applicationUserIndex", method= RequestMethod.GET)
+    public String signUp(Model m) {
 
         m.addAttribute("users", userRepo.findAll());
         return "applicationUserIndex";
@@ -26,6 +36,7 @@ public class ApplicationUserController {
 
     @RequestMapping(value="/users", method=RequestMethod.POST)
     public RedirectView create(
+
             @RequestParam String userName,
             @RequestParam String password,
             @RequestParam String firstName,
@@ -33,7 +44,8 @@ public class ApplicationUserController {
             @RequestParam String dateOfBirth,
             @RequestParam String picture,
             @RequestParam String bio) {
-        ApplicationUser newUser = new ApplicationUser(userName, password, firstName, lastName, dateOfBirth, picture, bio);
+
+        ApplicationUser newUser = new ApplicationUser(userName, bCryptPasswordEncoder.encode(password), firstName, lastName, dateOfBirth, picture, bio);
         userRepo.save(newUser);
         return new RedirectView("/");
     }
