@@ -33,10 +33,18 @@ public class ApplicationUserController {
         m.addAttribute("users", userRepo.findAll());
         return "applicationUserIndex";
     }
+    @RequestMapping(value="/common", method= RequestMethod.GET)
+    public String userLookup(Model m) {
+       // @RequestParam String userName
+//        m.addAttribute("users", userRepo.findByUsername(userName));
+
+        m.addAttribute("users", userRepo.findAll());
+
+        return ("common");
+    }
 
     @RequestMapping(value="/users", method=RequestMethod.POST)
     public RedirectView create(
-
             @RequestParam String userName,
             @RequestParam String password,
             @RequestParam String firstName,
