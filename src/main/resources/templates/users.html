@@ -6,6 +6,8 @@
 </head>
 <body>
 <h1>User Search</h1>
+<div th:replace="common :: nav"></div>
+
 <ul>
     <li th:each="user : ${users}">
         <span th:text="${user}"></span>
