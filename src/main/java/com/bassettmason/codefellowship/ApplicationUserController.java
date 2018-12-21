@@ -55,25 +55,26 @@ public class ApplicationUserController {
         newUser = userRepo.save(newUser);
         Authentication authentication = new UsernamePasswordAuthenticationToken(newUser, null, new ArrayList<>());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new RedirectView("/userDetail");
+        return new RedirectView("/applicationUserIndex");
     }
 //login path to userdetail
     @GetMapping("/login")
     public String login(){
 
-        return ("userDetail");
+        return ("login");
     }
 //get logged in user detail
-    @GetMapping("/userDetail")
-    public String userDetail(Principal p, Model m) {
-        ApplicationUser currentUser = (ApplicationUser) p;
-        System.out.println(p);
-        m.addAttribute("user", p);
-        return "userDetail";
-    }
+//    @GetMapping("/userDetail")
+//    public String userDetail(Principal p, Model m) {
+//        ApplicationUser currentUser = (ApplicationUser) p;
+//        System.out.println(p);
+//        m.addAttribute("user", p);
+//        return "userDetail";
+//    }
 
 //users path list all users
-@GetMapping()    public String users(Model m) {
+@GetMapping("users")
+public String users(Model m) {
 
         m.addAttribute("users", userRepo.findAll());
 
@@ -82,29 +83,29 @@ public class ApplicationUserController {
 
 
 //get current login user
-    @RequestMapping(value="/userDetail", method= RequestMethod.GET)
-    public String userShow(@RequestParam long id, Model m) {
-        Optional<ApplicationUser> u = userRepo.findById(id);
-        if(u.isPresent()) {
-            m.addAttribute("users", u.get());
-            return "userDetail";
-        } else {
+//    @RequestMapping(value="/userDetail", method= RequestMethod.GET)
+//    public String userShow(@RequestParam long id, Model m) {
+//        Optional<ApplicationUser> u = userRepo.findById(id);
+//        if(u.isPresent()) {
+//            m.addAttribute("users", u.get());
+//            return "userDetail";
+//        } else {
+//
+//            throw new ResourceNotFoundException();
+//        }
+//
+//    }
 
-            throw new ResourceNotFoundException();
-        }
-
-    }
-
-    @GetMapping("/userDetail")
-    public String getUser(Principal p, Model m) {
-        m.addAttribute("user", ((UsernamePasswordAuthenticationToken) p).getPrincipal());
-        return "userDetail";
-    }
+//    @GetMapping("/userDetail")
+//    public String getUser(Principal p, Model m) {
+//        m.addAttribute("user", ((UsernamePasswordAuthenticationToken) p).getPrincipal());
+//        return "userDetail";
+//    }
 
 
 
 }
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
 class ResourceNotFoundException extends RuntimeException {
-    
+
 }
