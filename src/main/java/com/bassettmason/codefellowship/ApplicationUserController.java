@@ -33,14 +33,13 @@ public class ApplicationUserController {
     public String index() {
         return "index";
     }
+
 //not quite sure maybe login after sign up
     @GetMapping("/applicationUserIndex")
-    public String showSignUpPage(Principal p, Model m) {
-        System.out.println(p);
-        ApplicationUser u = new ApplicationUser();
+    public String showSignUpPage(Model m) {
         return "applicationUserIndex";
     }
-//sign up and save new user path to that specific user details
+    //sign up and save new user path to that specific user details
     @PostMapping("/applicationUserIndex")
     public RedirectView applicationUserIndex(
             @RequestParam String userName,
@@ -57,20 +56,19 @@ public class ApplicationUserController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return new RedirectView("/applicationUserIndex");
     }
-//login path to userdetail
     @GetMapping("/login")
     public String login(){
 
         return ("login");
     }
-//get logged in user detail
-//    @GetMapping("/userDetail")
-//    public String userDetail(Principal p, Model m) {
-//        ApplicationUser currentUser = (ApplicationUser) p;
-//        System.out.println(p);
-//        m.addAttribute("user", p);
-//        return "userDetail";
-//    }
+
+    @GetMapping("/userDetail")
+    public String userDetail(Model m, Principal p) {
+
+        m.addAttribute("user", ((UsernamePasswordAuthenticationToken)p).getPrincipal());
+
+        return "userDetail";
+    }
 
 //users path list all users
 @GetMapping("users")
@@ -82,25 +80,7 @@ public String users(Model m) {
     }
 
 
-//get current login user
-//    @RequestMapping(value="/userDetail", method= RequestMethod.GET)
-//    public String userShow(@RequestParam long id, Model m) {
-//        Optional<ApplicationUser> u = userRepo.findById(id);
-//        if(u.isPresent()) {
-//            m.addAttribute("users", u.get());
-//            return "userDetail";
-//        } else {
-//
-//            throw new ResourceNotFoundException();
-//        }
-//
-//    }
 
-//    @GetMapping("/userDetail")
-//    public String getUser(Principal p, Model m) {
-//        m.addAttribute("user", ((UsernamePasswordAuthenticationToken) p).getPrincipal());
-//        return "userDetail";
-//    }
 
 
 
