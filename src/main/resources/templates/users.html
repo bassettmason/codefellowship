@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Search User</title>
+    <div th:replace="~{common :: head}"></div>
+</head>
+<body>
+<h1>User Search</h1>
+<div th:replace="common :: nav"></div>
+
+<ul>
+    <li th:each="user : ${users}">
+        <span th:text="${user}"></span>
+    </li>
+</ul>
+<h2>Search a user</h2>
+<form action="/common" method="GET">
+    <input value="user name" name="userName" />
+    <input type="submit" />
+</form>
+</body>
